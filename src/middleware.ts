@@ -2,35 +2,29 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
 export function middleware(request: NextRequest) {
-  // Skip password protection if disabled or credentials not set
-  const username = process.env.AUTH_USERNAME;
-  const password = process.env.AUTH_PASSWORD;
+  const { pathname } = request.nextUrl;
 
-  if (!username || !password) {
+  // Allow access to login page, API routes, and static files
+  if (
+    pathname.startsWith("/login") ||
+    pathname.startsWith("/api/") ||
+    pathname.startsWith("/_next/") ||
+    pathname.startsWith("/favicon.ico") ||
+    pathname.startsWith("/bg-")
+  ) {
     return NextResponse.next();
   }
 
-  const authHeader = request.headers.get("authorization");
+  // Check for auth token cookie
+  const authToken = request.cookies.get("auth-token");
 
-  if (authHeader) {
-    const [scheme, encoded] = authHeader.split(" ");
-
-    if (scheme === "Basic") {
-      const decoded = atob(encoded);
-      const [user, pass] = decoded.split(":");
-
-      if (user === username && pass === password) {
-        return NextResponse.next();
-      }
-    }
+  if (!authToken) {
+    // Redirect to login page
+    const loginUrl = new URL("/login", request.url);
+    return NextResponse.redirect(loginUrl);
   }
 
-  return new NextResponse("Authentication required", {
-    status: 401,
-    headers: {
-      "WWW-Authenticate": 'Basic realm="Ramify Presentation"',
-    },
-  });
+  return NextResponse.next();
 }
 
 export const config = {
@@ -39,8 +33,7 @@ export const config = {
      * Match all request paths except for the ones starting with:
      * - _next/static (static files)
      * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
      */
-    "/((?!_next/static|_next/image|favicon.ico).*)",
+    "/((?!_next/static|_next/image).*)",
   ],
 };
