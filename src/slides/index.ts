@@ -1,0 +1,15 @@
+export { CoverSlide } from "./CoverSlide";
+export { ExecutiveSummarySlide1 } from "./ExecutiveSummarySlide1";
+export { ExecutiveSummarySlide2 } from "./ExecutiveSummarySlide2";
+export { ExecutiveSummarySlide3 } from "./ExecutiveSummarySlide3";
+export { InstagramSlide } from "./InstagramSlide";
+export { InstagramSlide2 } from "./InstagramSlide2";
+export { LinkedInSlide } from "./LinkedInSlide";
+export { LinkedInSlide2 } from "./LinkedInSlide2";
+export { YouTubeGlobalSlide } from "./YouTubeGlobalSlide";
+export { YouTubeShortsVsLongsSlide } from "./YouTubeShortsVsLongsSlide";
+export { YouTubeJanuarySlide } from "./YouTubeJanuarySlide";
+export { CrossPlatformSlide } from "./CrossPlatformSlide";
+export { StrategicInsightsSlide } from "./StrategicInsightsSlide";
+export { RecommendationsSlide } from "./RecommendationsSlide";
+export { ConclusionSlide } from "./ConclusionSlide";
